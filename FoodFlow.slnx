@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yaml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/FoodFlow.API/FoodFlow.API.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks/FoodFlow.BuildingBlocks.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/FoodFlow.Modules.Catalog/FoodFlow.Modules.Catalog.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity/FoodFlow.Modules.Identity.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Ordering/">
+    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Application/FoodFlow.Modules.Ordering.Application.csproj" />
+    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Contracts/FoodFlow.Modules.Ordering.Contracts.csproj" />
+    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Domain/FoodFlow.Modules.Ordering.Domain.csproj" />
+    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Infrastructure/FoodFlow.Modules.Ordering.Infrastructure.csproj" />
+  </Folder>
+</Solution>
