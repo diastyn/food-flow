@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Domain\FoodFlow.BuildingBlocks.Domain.csproj" />
+    <ProjectReference Include="..\FoodFlow.Modules.Ordering.Contracts\FoodFlow.Modules.Ordering.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
