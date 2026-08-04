@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Results\FoodFlow.BuildingBlocks.Results.csproj" />
     <ProjectReference Include="..\FoodFlow.Modules.Ordering.Domain\FoodFlow.Modules.Ordering.Domain.csproj" />
     <ProjectReference Include="..\FoodFlow.Modules.Ordering.Contracts\FoodFlow.Modules.Ordering.Contracts.csproj" />
   </ItemGroup>
