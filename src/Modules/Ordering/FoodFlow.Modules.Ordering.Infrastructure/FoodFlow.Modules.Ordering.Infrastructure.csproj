@@ -2,12 +2,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodFlow.Modules.Ordering.Application\FoodFlow.Modules.Ordering.Application.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks\FoodFlow.BuildingBlocks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MassTransit.EntityFrameworkCore" Version="9.2.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="9.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
