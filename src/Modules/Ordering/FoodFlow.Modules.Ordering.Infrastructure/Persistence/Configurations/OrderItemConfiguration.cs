@@ -8,36 +8,36 @@ namespace FoodFlow.Modules.Ordering.Infrastructure.Persistence.Configurations;
 internal sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
 {
     public const string TableName = "OrderItems";
-    
+
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
-        builder.ToTable(TableName);
-        
-        builder.HasKey(x => x.Id);
-        
-        builder
+        _ = builder.ToTable(TableName);
+
+        _ = builder.HasKey(x => x.Id);
+
+        _ = builder
             .Property(item => item.Id)
             .HasConversion(id => id.Value, value => new OrderItemId(value));
-        
-        builder
+
+        _ = builder
             .Property(order => order.OrderId)
             .HasConversion(orderId => orderId.Value, value => new OrderId(value))
             .IsRequired();
-        
-        builder
+
+        _ = builder
             .Property(item => item.ProductId)
             .HasConversion(productId => productId.Value, value => new ProductId(value))
             .IsRequired();
-        
-        builder.Property(item => item.ProductName)
+
+        _ = builder.Property(item => item.ProductName)
             .HasMaxLength(100)
             .IsRequired();
-        
-        builder.Property(item => item.UnitPrice)
+
+        _ = builder.Property(item => item.UnitPrice)
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder
+        _ = builder
             .Property(item => item.Quantity)
             .IsRequired();
     }

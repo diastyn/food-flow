@@ -39,7 +39,8 @@ public class Order : AggregateRoot<OrderId>
         Money totalPrice,
         OrderStatus status,
         Address deliveryAddress,
-        IEnumerable<OrderItem> items) : base(id)
+        IEnumerable<OrderItem> items)
+        : base(id)
     {
         RestaurantId = restaurantId;
         CustomerId = customerId;
@@ -47,7 +48,7 @@ public class Order : AggregateRoot<OrderId>
         TotalPrice = totalPrice;
         Status = status;
         DeliveryAddress = deliveryAddress;
-        _items = items.ToList();
+        _items = [.. items];
     }
 
     public static Order Create(
@@ -81,14 +82,14 @@ public class Order : AggregateRoot<OrderId>
                 item.Quantity,
                 item.ProductName,
                 new ProductId(item.ProductId))));
-        
+
         order.RaiseDomainEvent(new OrderCreatedDomainEvent(
             restaurantId,
             customerId,
             order.Id,
             order.TotalPrice.Amount,
             order.DeliveryAddress.ToString()));
-        
+
         return order;
     }
 }

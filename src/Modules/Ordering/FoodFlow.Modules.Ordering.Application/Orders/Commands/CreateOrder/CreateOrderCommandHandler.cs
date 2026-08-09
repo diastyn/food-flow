@@ -6,13 +6,14 @@ using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders;
 using FoodFlow.Modules.Ordering.Domain.Stores;
 using FoodFlow.Modules.Ordering.Domain.ValueObjects;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FoodFlow.Modules.Ordering.Application.Orders.Commands.CreateOrder;
 
 public sealed class CreateOrderCommandHandler(
     IOrderStore store,
     TimeProvider timeProvider,
-    IUnitOfWork unitOfWork,
+    [FromKeyedServices(nameof(Ordering))] IUnitOfWork unitOfWork,
     IValidator<CreateOrderCommand> validator) : IRequestHandler<CreateOrderCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(
@@ -20,7 +21,7 @@ public sealed class CreateOrderCommandHandler(
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        
+
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
@@ -36,7 +37,7 @@ public sealed class CreateOrderCommandHandler(
             request.DeliveryAddress.City,
             request.DeliveryAddress.Street,
             request.DeliveryAddress.PostalCode);
-        
+
         var order = Order.Create(
             new RestaurantId(request.RestaurantId),
             new CustomerId(request.CustomerId),
@@ -45,7 +46,7 @@ public sealed class CreateOrderCommandHandler(
             address,
             request.Items);
 
-        await store.AddAsync(order, cancellationToken);
+        _ = await store.AddAsync(order, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Success(order.Id.Value);
     }

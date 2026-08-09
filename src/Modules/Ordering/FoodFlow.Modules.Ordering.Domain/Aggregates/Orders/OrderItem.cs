@@ -12,7 +12,7 @@ public class OrderItem : Entity<OrderItemId>
     public int Quantity { get; private set; }
 
     public ProductId ProductId { get; private set; }
-    
+
     public string ProductName { get; private set; }
 
     private OrderItem(
@@ -21,7 +21,8 @@ public class OrderItem : Entity<OrderItemId>
         decimal unitPrice,
         int quantity,
         string productName,
-        ProductId productId) : base(id)
+        ProductId productId)
+        : base(id)
     {
         UnitPrice = unitPrice;
         Quantity = quantity;
@@ -43,7 +44,7 @@ public class OrderItem : Entity<OrderItemId>
         {
             throw new DomainException("The order item must contain at least one quantity.");
         }
-        
+
         var item = new OrderItem(
             OrderItemId.New(),
             orderId,

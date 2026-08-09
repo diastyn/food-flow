@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace FoodFlow.Modules.Ordering.Infrastructure.Persistence;
 
-public sealed class OrderingDbContextFactory : IDesignTimeDbContextFactory<OrderingDbContext>
+internal sealed class OrderingDbContextFactory : IDesignTimeDbContextFactory<OrderingDbContext>
 {
     public OrderingDbContext CreateDbContext(string[] args)
     {

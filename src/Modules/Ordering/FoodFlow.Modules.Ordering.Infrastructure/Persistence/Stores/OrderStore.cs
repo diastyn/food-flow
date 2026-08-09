@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodFlow.Modules.Ordering.Infrastructure.Persistence.Stores;
 
-public class OrderStore(OrderingDbContext dbContext) : IOrderStore
+internal sealed class OrderStore(OrderingDbContext dbContext) : IOrderStore
 {
     public async Task<Order?> GetAsync(
         OrderId orderId,
@@ -36,14 +36,13 @@ public class OrderStore(OrderingDbContext dbContext) : IOrderStore
                     order.DeliveryAddress.City,
                     order.DeliveryAddress.Country,
                     order.DeliveryAddress.PostalCode),
-                order.Items.Select(_ => new OrderItemModel(
-                    Guid.NewGuid(),
-                    string.Empty,
-                    Random.Shared.Next(),
-                    Random.Shared.Next()
-                ))))
+                order.Items.Select(item => new OrderItemModel(
+                    item.ProductId,
+                    item.ProductName,
+                    item.UnitPrice,
+                    item.Quantity))))
             .ToListAsync(cancellationToken);
-        
+
         return orders;
     }
 
@@ -52,7 +51,7 @@ public class OrderStore(OrderingDbContext dbContext) : IOrderStore
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(order);
-        await dbContext.AddAsync(order, cancellationToken);
+        _ = await dbContext.AddAsync(order, cancellationToken);
         return order.Id;
     }
 }

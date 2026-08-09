@@ -21,7 +21,7 @@ public sealed record Currency
     }
 
     public string Code { get; }
-    
+
     public int DecimalPlaces { get; }
 
     public static readonly Currency Kzt = new("KZT", 2);
@@ -29,7 +29,7 @@ public sealed record Currency
     public static readonly Currency Usd = new("USD", 2);
 
     public static readonly IReadOnlyList<Currency> All = [Kzt, Eur, Usd];
-    
+
     private static readonly IReadOnlyDictionary<string, Currency> Values =
         new Dictionary<string, Currency>
         {
@@ -41,7 +41,7 @@ public sealed record Currency
     public static Currency FromCode(string code)
     {
         var normalized = code.Trim().ToUpperInvariant();
-        return Values.TryGetValue(normalized, out var currency) ? currency 
+        return Values.TryGetValue(normalized, out var currency) ? currency
             : throw new DomainException($"Unsupported currency code: '{code}'.");
     }
 

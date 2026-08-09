@@ -6,17 +6,17 @@ using MediatR;
 namespace FoodFlow.Modules.Ordering.Application.Orders.Queries.GetOrders;
 
 internal sealed class GetOrdersQueryHandler(
-    IOrderStore store) 
+    IOrderStore store)
     : IRequestHandler<GetOrdersQuery, Result<IReadOnlyList<OrderModel>>>
 {
     public async Task<Result<IReadOnlyList<OrderModel>>> Handle(
-        GetOrdersQuery request, 
+        GetOrdersQuery request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
         var orders = await store.GetManyAsync(cancellationToken);
-        
+
         return Result.Success(orders);
     }
 }

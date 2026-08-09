@@ -1,7 +1,7 @@
 namespace FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Contracts;
 
 public sealed record OrderItemModel(
-    Guid ProductId, 
+    Guid ProductId,
     string ProductName,
-    decimal UnitPrice, 
+    decimal UnitPrice,
     int Quantity);

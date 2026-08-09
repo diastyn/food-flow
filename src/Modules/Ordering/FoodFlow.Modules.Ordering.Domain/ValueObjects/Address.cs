@@ -21,9 +21,9 @@ public sealed record Address
     public string? PostalCode { get; }
 
     public static Address Create(
-        string country, 
+        string country,
         string city,
-        string street, 
+        string street,
         string? postalCode)
     {
         if (string.IsNullOrWhiteSpace(country))
@@ -47,6 +47,6 @@ public sealed record Address
             street.Trim(),
             string.IsNullOrWhiteSpace(postalCode) ? null : postalCode.Trim());
     }
-    
+
     public override string ToString() => $"{Country}, {City}, {Street}, {PostalCode}";
 }

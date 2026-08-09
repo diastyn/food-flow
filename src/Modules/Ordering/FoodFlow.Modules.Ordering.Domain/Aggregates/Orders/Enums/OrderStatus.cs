@@ -13,10 +13,10 @@ public abstract class OrderStatus(string name, int value) : SmartEnum<OrderStatu
     public static readonly OrderStatus Processing = new ProcessingStatus();
 
     public static readonly OrderStatus ReadyForPickup = new ReadyForPickupStatus();
-    
+
     public static readonly OrderStatus InTransit = new InTransitStatus();
-    
+
     public static readonly OrderStatus Delivered = new DeliveredStatus();
-    
+
     public static readonly OrderStatus Cancelled = new CancelledStatus();
 }

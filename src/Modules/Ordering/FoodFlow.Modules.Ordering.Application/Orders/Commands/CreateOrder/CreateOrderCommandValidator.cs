@@ -6,12 +6,12 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {
     public CreateOrderCommandValidator()
     {
-        RuleFor(x => x.CustomerId).NotEmpty();
-        RuleFor(x => x.RestaurantId).NotEmpty();
-        RuleFor(x => x.DeliveryAddress).NotEmpty();
-        
+        _ = RuleFor(x => x.CustomerId).NotEmpty();
+        _ = RuleFor(x => x.RestaurantId).NotEmpty();
+        _ = RuleFor(x => x.DeliveryAddress).NotEmpty();
+
         // Инвариант: заказ не может быть пустым
-        RuleFor(x => x.Items)
+        _ = RuleFor(x => x.Items)
             .NotEmpty()
             .WithMessage("The order must contain at least one product.")
             .Must(items => items.All(i => i.Quantity > 0))

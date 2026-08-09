@@ -1,13 +1,12 @@
-using FoodFlow.Modules.Ordering.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FoodFlow.Modules.Ordering.Infrastructure.Configuration;
+namespace FoodFlow.Modules.Ordering.Infrastructure.Persistence.Extensions;
 
-public static class WebApplicationExtensions
+public static class MigrationApplierExtensions
 {
-    public static async Task MigrateDatabaseAsync(
+    public static async Task MigrateOrderingDatabaseAsync(
         this WebApplication app,
         CancellationToken cancellationToken = default)
     {
@@ -15,6 +14,6 @@ public static class WebApplicationExtensions
 
         await using var scope = app.Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<OrderingDbContext>();
-        await dbContext.Database.MigrateAsync();
+        await dbContext.Database.MigrateAsync(cancellationToken);
     }
 }

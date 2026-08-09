@@ -12,52 +12,54 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable(TableName);
+        _ = builder.ToTable(TableName);
 
-        builder.HasKey(o => o.Id);
-        builder
+        _ = builder.HasKey(o => o.Id);
+        _ = builder
             .Property(order => order.Id)
             .HasConversion(id => id.Value, value => new OrderId(value));
 
-        builder
+        _ = builder
             .Property(order => order.CustomerId)
             .HasConversion(id => id.Value, value => new CustomerId(value));
 
-        builder
+        _ = builder
             .Property(order => order.RestaurantId)
             .HasConversion(id => id.Value, value => new RestaurantId(value));
 
-        builder.ComplexProperty(order => order.DeliveryAddress, address =>
+        _ = builder.ComplexProperty(order => order.DeliveryAddress, address =>
         {
-            address.Property(a => a.Country).HasMaxLength(100).HasColumnName("DeliveryAddressCountry").IsRequired();
-            address.Property(a => a.City).HasMaxLength(100).HasColumnName("DeliveryAddressCity").IsRequired();
-            address.Property(a => a.Street).HasMaxLength(200).HasColumnName("DeliveryAddressStreet").IsRequired();
-            address.Property(a => a.PostalCode).HasMaxLength(20).HasColumnName("DeliveryAddressPostalCode");
+            _ = address.Property(a => a.Country).HasMaxLength(100).HasColumnName("DeliveryAddressCountry").IsRequired();
+            _ = address.Property(a => a.City).HasMaxLength(100).HasColumnName("DeliveryAddressCity").IsRequired();
+            _ = address.Property(a => a.Street).HasMaxLength(200).HasColumnName("DeliveryAddressStreet").IsRequired();
+            _ = address.Property(a => a.PostalCode).HasMaxLength(20).HasColumnName("DeliveryAddressPostalCode");
         });
 
-        builder
+        _ = builder
             .HasMany(order => order.Items)
             .WithOne()
             .HasForeignKey(order => order.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.Property(order => order.Status)
-            .HasConversion(status => status.Value, 
+
+        _ = builder.Property(order => order.Status)
+            .HasConversion(status => status.Value,
                 value => OrderStatus.FromValue(value));
 
-        builder.ComplexProperty(order => order.TotalPrice, totalPrice =>
+        _ = builder.ComplexProperty(order => order.TotalPrice, totalPrice =>
         {
-            totalPrice.Property(t => t.Amount)
+            _ = totalPrice.Property(t => t.Amount)
                 .HasColumnName("TotalPriceAmount")
                 .HasPrecision(18, 2)
                 .IsRequired();
-            
-            totalPrice
+
+            _ = totalPrice
                 .Property(t => t.Currency)
                 .HasColumnName("TotalPriceCurrency")
                 .HasMaxLength(3)
                 .HasConversion(currency => currency.Code, code => Currency.FromCode(code))
                 .IsRequired();
         });
+
+        _ = builder.Ignore(u => u.DomainEvents);
     }
 }

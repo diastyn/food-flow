@@ -5,6 +5,7 @@ namespace FoodFlow.Modules.Ordering.Domain.ValueObjects;
 public readonly record struct Money
 {
     public decimal Amount { get; }
+
     public Currency Currency { get; }
 
     private Money(decimal amount, Currency currency)
@@ -14,10 +15,7 @@ public readonly record struct Money
         Amount = decimal.Round(amount, currency.DecimalPlaces, MidpointRounding.ToEven);
     }
 
-    public static Money Create(decimal amount, Currency currency)
-    {
-        return new Money(amount, currency);
-    }
+    public static Money Create(decimal amount, Currency currency) => new(amount, currency);
 
     public static Money Zero(Currency currency) => new(0, currency);
 
@@ -33,10 +31,7 @@ public readonly record struct Money
         return new Money(Amount - other.Amount, Currency);
     }
 
-    public Money Multiply(decimal multiplier)
-    {
-        return new Money(Amount * multiplier, Currency);
-    }
+    public Money Multiply(decimal multiplier) => new(Amount * multiplier, Currency);
 
     private void EnsureSameCurrency(Money other)
     {
@@ -48,7 +43,10 @@ public readonly record struct Money
 
     // Operators
     public static Money operator +(Money left, Money right) => left.Add(right);
+
     public static Money operator -(Money left, Money right) => left.Subtract(right);
+
     public static Money operator *(Money left, decimal right) => left.Multiply(right);
+
     public static Money operator *(decimal left, Money right) => right.Multiply(left);
 }
