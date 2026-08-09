@@ -1,0 +1,150 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.cs]
+indent_size = 4
+
+[*.{csproj,props,targets,slnx}]
+indent_size = 2
+
+[*.{json,yaml,yml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+#### C# language conventions ####
+
+[*.cs]
+
+# var usage
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+
+# Pattern matching / null checks
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+
+# Modifiers
+dotnet_style_require_accessibility_modifiers = always:warning
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:warning
+dotnet_style_readonly_field = true:warning
+csharp_prefer_static_local_function = true:suggestion
+
+# Namespaces / usings
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_using_directive_placement = outside_namespace:warning
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Braces / new lines (Allman style)
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_prefer_braces = true:suggestion
+
+# Indentation
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+# Spacing
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+# var/other misc
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_throw_expression = true:suggestion
+csharp_style_unused_value_expression_statement_preference = discard_variable:suggestion
+
+# this. qualification (rely on IDE0009/StyleCop off, drop redundant this.)
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+#### Naming conventions ####
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+dotnet_naming_style.interface_style.capitalization = pascal_case
+dotnet_naming_style.interface_style.required_prefix = I
+
+dotnet_naming_style.private_field_style.capitalization = camel_case
+dotnet_naming_style.private_field_style.required_prefix = _
+
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.interfaces.applicable_accessibilities = *
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_symbols.types_and_members.applicable_kinds = class, struct, enum, property, method, event, delegate, local_function
+dotnet_naming_symbols.types_and_members.applicable_accessibilities = *
+
+dotnet_naming_rule.interfaces_start_with_i.symbols = interfaces
+dotnet_naming_rule.interfaces_start_with_i.style = interface_style
+dotnet_naming_rule.interfaces_start_with_i.severity = warning
+
+dotnet_naming_rule.private_fields_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_camel_case.style = private_field_style
+dotnet_naming_rule.private_fields_camel_case.severity = warning
+
+dotnet_naming_rule.types_and_members_pascal_case.symbols = types_and_members
+dotnet_naming_rule.types_and_members_pascal_case.style = pascal_case_style
+dotnet_naming_rule.types_and_members_pascal_case.severity = warning
+
+#### StyleCop.Analyzers overrides ####
+# Pragmatic defaults for a modular monolith using file-scoped namespaces and
+# primary constructors: documentation and "this." rules are off, everything
+# that catches real ordering/consistency issues stays on as a suggestion.
+
+dotnet_diagnostic.SA0001.severity = none   # XML comment analysis disabled (docs not required, see stylecop.json)
+dotnet_diagnostic.SA1101.severity = none   # Prefix local calls with this.
+dotnet_diagnostic.SA1200.severity = none   # Using directives inside namespace (we keep them outside)
+dotnet_diagnostic.SA1309.severity = none   # Field names must not begin with underscore
+dotnet_diagnostic.SA1600.severity = none   # Elements must be documented
+dotnet_diagnostic.SA1601.severity = none   # Partial elements must be documented
+dotnet_diagnostic.SA1602.severity = none   # Enumeration items must be documented
+dotnet_diagnostic.SA1623.severity = none   # Property summary documentation
+dotnet_diagnostic.SA1633.severity = none   # File must have header
+dotnet_diagnostic.SA1116.severity = none   # Split parameters must start on line after declaration
+dotnet_diagnostic.SA1117.severity = none   # Parameters must all be on same line or separate lines
+dotnet_diagnostic.SA1118.severity = suggestion
+dotnet_diagnostic.SA1201.severity = suggestion  # Elements must appear in the correct order
+dotnet_diagnostic.SA1202.severity = suggestion  # Elements must be ordered by access
+dotnet_diagnostic.SA1204.severity = suggestion  # Static members must appear before non-static
+dotnet_diagnostic.SA1413.severity = none   # Trailing comma in multi-line initializers
+dotnet_diagnostic.SA1010.severity = none   # Opening square brackets must be spaced correctly (collection expressions)
+dotnet_diagnostic.SA1615.severity = none   # Element return value must be documented
+dotnet_diagnostic.SA1611.severity = none   # Element parameters must be documented
+dotnet_diagnostic.SA1618.severity = none   # Generic type parameters must be documented
+dotnet_diagnostic.SA1642.severity = none   # Constructor summary documentation
+dotnet_diagnostic.SA1649.severity = none   # File name must match first type name (primary constructors, records)
+
+[*.{csproj,props,targets}]
+indent_style = space
