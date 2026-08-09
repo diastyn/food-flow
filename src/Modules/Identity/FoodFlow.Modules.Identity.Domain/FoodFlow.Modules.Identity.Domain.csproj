@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Domain\FoodFlow.BuildingBlocks.Domain.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Results\FoodFlow.BuildingBlocks.Results.csproj" />
+    </ItemGroup>
+
+</Project>
