@@ -11,7 +11,7 @@ internal static class ResultExtensions
     {
         ArgumentNullException.ThrowIfNull(httpContext);
         ArgumentNullException.ThrowIfNull(result);
-        
+
         if (result.IsSuccess)
         {
             return new OkObjectResult(result.Value);
