@@ -1,12 +1,17 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
     <File Path="docker-compose.yaml" />
+    <File Path="stylecop.json" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/FoodFlow.API/FoodFlow.API.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Domain/FoodFlow.BuildingBlocks.Domain.csproj" />
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Infrastructure/FoodFlow.BuildingBlocks.Infrastructure.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Results/FoodFlow.BuildingBlocks.Results.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
@@ -14,7 +19,9 @@
     <Project Path="src/Modules/Catalog/FoodFlow.Modules.Catalog/FoodFlow.Modules.Catalog.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Identity/">
-    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity/FoodFlow.Modules.Identity.csproj" />
+    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Application/FoodFlow.Modules.Identity.Application.csproj" />
+    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Domain/FoodFlow.Modules.Identity.Domain.csproj" />
+    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Infrastructure/FoodFlow.Modules.Identity.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Ordering/">
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Application/FoodFlow.Modules.Ordering.Application.csproj" />
