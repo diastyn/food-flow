@@ -5,7 +5,8 @@ namespace FoodFlow.BuildingBlocks.Domain.Primitives;
 /// Равенство основано на идентичности (по Id), а не на значениях атрибутов.
 /// </summary>
 /// <typeparam name="TId">Тип идентификатора сущности.</typeparam>
-public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
+public abstract class Entity<TId> : IEquatable<Entity<TId>>
+    where TId : notnull
 {
     /// <summary>
     /// Уникальный идентификатор сущности.
@@ -16,7 +17,10 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
     /// Инициализирует сущность с заданным идентификатором.
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
-    protected Entity(TId id) => Id = id;
+    protected Entity(TId id)
+    {
+        Id = id;
+    }
 
     /// <summary>
     /// Конструктор без параметров — используется EF Core при материализации объекта из базы данных.
@@ -51,10 +55,7 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
     }
 
     /// <inheritdoc/>
-    public sealed override bool Equals(object? obj)
-    {
-        return obj is Entity<TId> other && Equals(other);
-    }
+    public sealed override bool Equals(object? obj) => obj is Entity<TId> other && Equals(other);
 
     /// <inheritdoc/>
     public override int GetHashCode()

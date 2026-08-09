@@ -6,7 +6,8 @@ namespace FoodFlow.BuildingBlocks.Domain.Primitives;
 /// чтобы инфраструктура могла опубликовать их после сохранения агрегата.
 /// </summary>
 /// <typeparam name="TId">Тип идентификатора агрегата.</typeparam>
-public abstract class AggregateRoot<TId> : Entity<TId>, IHasDomainEvents where TId : notnull
+public abstract class AggregateRoot<TId> : Entity<TId>, IHasDomainEvents
+    where TId : notnull
 {
     private readonly List<IDomainEvent> _domainEvents = [];
 
@@ -14,13 +15,14 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IHasDomainEvents where T
     {
     }
 
-    protected AggregateRoot(TId id) : base(id)
+    protected AggregateRoot(TId id)
+        : base(id)
     {
     }
 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-    protected void RaiseDomainEvent(IDomainEvent domainEvent) =>  _domainEvents.Add(domainEvent);
+    protected void RaiseDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
     public void ClearDomainEvents() => _domainEvents.Clear();
 }
