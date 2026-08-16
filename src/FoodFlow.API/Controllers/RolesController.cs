@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodFlow.API.Controllers;
 
-[Route("api/roles")]
-public sealed class RoleController(ISender sender) : ApiBaseController
+public sealed class RolesController(ISender sender) : ApiBaseController
 {
     [HttpPost]
     [Authorize(Policy = AppPermissions.Roles.Write)]

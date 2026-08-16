@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodFlow.API.Controllers;
 
-[ApiController]
-[Route("api/auth")]
 public sealed class AuthController(
     IRequestContext requestContext,
     ISender sender) : ApiBaseController

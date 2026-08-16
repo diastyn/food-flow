@@ -1,4 +1,6 @@
+using FoodFlow.API.ApiVersioning;
 using FoodFlow.API.Middlewares;
+using FoodFlow.API.ModelConventions;
 using FoodFlow.API.Security;
 using FoodFlow.BuildingBlocks.Application;
 using FoodFlow.BuildingBlocks.Domain.Mapper;
@@ -14,10 +16,6 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
-    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-    _ = builder.Services.AddOpenApi();
-
     _ = builder.Services
         .RegisterTimeProvider()
         .RegisterHttpRequestContext()
@@ -32,9 +30,10 @@ try
 
     _ = builder.Services.AddIdentityAuthentication();
     _ = builder.Services.AddPermissionAuthorization();
-    _ = builder.Services.AddControllers()
+    _ = builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseControllerRouteConvention()))
         .AddMvcOptions(options => { options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true; })
         .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
+    _ = builder.Services.AddRestApiVersioning();
 
     _ = builder.Services.Configure<ForwardedHeadersOptions>(options =>
     {
@@ -51,7 +50,7 @@ try
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        _ = app.MapOpenApi();
+        _ = app.MapOpenApi().WithDocumentPerVersion();
         await app.MigrateOrderingDatabaseAsync();
         await app.MigrateIdentityDatabaseAsync();
     }

@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodFlow.API.Controllers;
 
-[Route("api/users")]
-public sealed class UserController(ISender sender) : ApiBaseController
+public sealed class UsersController(ISender sender) : ApiBaseController
 {
     [HttpPost]
     [Authorize(Policy = AppPermissions.Users.Write)]
