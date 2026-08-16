@@ -35,4 +35,10 @@ public class EntitySpecification<TEntity, TKey> : Specification<TEntity>
         _ = Query.Where(entity => keys.Contains(entity.Id));
         return this;
     }
+
+    public EntitySpecification<TEntity, TKey> EnableTracking()
+    {
+        _ = Query.AsTracking();
+        return this;
+    }
 }

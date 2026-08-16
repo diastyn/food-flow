@@ -5,7 +5,7 @@ namespace FoodFlow.BuildingBlocks.Domain.Mapper;
 
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection RegisterAutoMapper(
+    public static IServiceCollection RegisterMapper(
         this IServiceCollection services,
         params Assembly[] assemblies)
     {

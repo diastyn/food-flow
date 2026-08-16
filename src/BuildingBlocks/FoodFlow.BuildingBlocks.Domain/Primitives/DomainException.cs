@@ -1,16 +1,13 @@
+using FoodFlow.BuildingBlocks.Results;
+
 namespace FoodFlow.BuildingBlocks.Domain.Primitives;
 
-public sealed class DomainException : Exception
+public class DomainException : ExceptionBase
 {
     public DomainException(
-        string message,
-        Exception innerException)
-        : base(message, innerException)
-    {
-    }
-
-    public DomainException(string message)
-        : base(message)
+        Error error,
+        Exception? innerException = null)
+        : base(error, innerException)
     {
     }
 }

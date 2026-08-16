@@ -6,4 +6,8 @@
     <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FoodFlow.BuildingBlocks.Results\FoodFlow.BuildingBlocks.Results.csproj" />
+  </ItemGroup>
+
 </Project>

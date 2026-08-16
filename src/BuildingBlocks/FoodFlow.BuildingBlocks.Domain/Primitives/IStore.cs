@@ -12,7 +12,7 @@ public interface IStore<TAggregateRoot, TKey>
     /// <param name="id">Идентификатор.</param>
     /// <param name="cancellationToken">Токен отмены операции для поддержки асинхронной отмены.</param>
     /// <returns>Задача, представляющая асинхронную операцию, результатом которой является модель.</returns>
-    public Task<TModel> GetByIdAsync<TModel>(
+    public Task<TModel?> GetByIdAsync<TModel>(
         TKey id,
         CancellationToken cancellationToken = default);
 
@@ -24,6 +24,11 @@ public interface IStore<TAggregateRoot, TKey>
         ISpecification<TAggregateRoot> specification,
         CancellationToken cancellationToken = default);
 
+    public Task<IReadOnlyList<TModel>> GetManyAsync<TModel>(
+        ISpecification<TAggregateRoot> specification,
+        OffsetPagination pagination,
+        CancellationToken cancellationToken);
+
     /// <summary>
     ///     Проверяет наличие хотя бы одного агрегата, соответствующего спецификации.
     /// </summary>
@@ -33,4 +38,11 @@ public interface IStore<TAggregateRoot, TKey>
     public Task<bool> ExistsAsync(
         ISpecification<TAggregateRoot> specification,
         CancellationToken cancellationToken = default);
+
+    public Task<TKey> AddAsync(
+        TAggregateRoot aggregateRoot,
+        CancellationToken cancellationToken = default);
+
+    TKey Update(
+        TAggregateRoot aggregateRoot);
 }
