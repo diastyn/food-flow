@@ -1,9 +1,9 @@
 using Ardalis.Specification;
-using Ardalis.Specification.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.BuildingBlocks.Domain.Specifications;
+using FoodFlow.BuildingBlocks.Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodFlow.BuildingBlocks.Infrastructure.Persistence;
@@ -23,43 +23,63 @@ public class EfCoreStore<TAggregateRoot, TKey> : IStore<TAggregateRoot, TKey>
         _mapper = mapper;
     }
 
-    public virtual async Task<TModel> GetByIdAsync<TModel>(
+    public virtual async Task<TModel?> GetByIdAsync<TModel>(
         TKey id,
         CancellationToken cancellationToken = default)
     {
         var specification = new AggregateSpecification<TAggregateRoot, TKey>()
             .ByKey(id);
 
-        var model = await ApplySpecification(_dbSet, specification)
+        var model = await _dbSet
             .AsNoTracking()
+            .ApplySpecification<TAggregateRoot, TKey>(specification)
             .ProjectTo<TModel>(_mapper.ConfigurationProvider)
-            .SingleAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         return model;
     }
 
-    public async Task<TAggregateRoot?> GetByIdAsync(
+    public virtual async Task<TAggregateRoot?> GetByIdAsync(
         TKey id,
         CancellationToken cancellationToken = default)
     {
         var specification = new AggregateSpecification<TAggregateRoot, TKey>()
             .ByKey(id);
 
-        var entity = await ApplySpecification(_dbSet, specification)
+        var entity = await _dbSet
             .AsNoTracking()
+            .ApplySpecification<TAggregateRoot, TKey>(specification)
             .FirstOrDefaultAsync(cancellationToken);
 
         return entity;
     }
 
-    public async Task<TAggregateRoot?> GetAsync(
+    public virtual async Task<TAggregateRoot?> GetAsync(
         ISpecification<TAggregateRoot> specification,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(specification);
 
-        return await ApplySpecification(_dbSet, specification)
+        return await _dbSet
+            .AsNoTracking()
+            .ApplySpecification<TAggregateRoot, TKey>(specification)
             .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public virtual async Task<IReadOnlyList<TModel>> GetManyAsync<TModel>(
+        ISpecification<TAggregateRoot> specification,
+        OffsetPagination pagination,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(specification);
+        ArgumentNullException.ThrowIfNull(pagination);
+
+        return await _dbSet
+            .AsNoTracking()
+            .ApplySpecification<TAggregateRoot, TKey>(specification)
+            .ApplyPagination<TAggregateRoot, TKey>(pagination)
+            .ProjectTo<TModel>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
     }
 
     public virtual async Task<bool> ExistsAsync(
@@ -68,23 +88,24 @@ public class EfCoreStore<TAggregateRoot, TKey> : IStore<TAggregateRoot, TKey>
     {
         ArgumentNullException.ThrowIfNull(specification);
 
-        return await ApplySpecification(_dbSet, specification)
+        return await _dbSet
+            .ApplySpecification<TAggregateRoot, TKey>(specification)
             .AnyAsync(cancellationToken);
     }
 
-    private static IQueryable<TAggregateRoot> ApplySpecification(
-        IQueryable<TAggregateRoot> query,
-        ISpecification<TAggregateRoot>? specification)
+    public virtual async Task<TKey> AddAsync(
+        TAggregateRoot aggregateRoot,
+        CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(query);
+        ArgumentNullException.ThrowIfNull(aggregateRoot);
+        _ = await _dbSet.AddAsync(aggregateRoot, cancellationToken);
+        return aggregateRoot.Id;
+    }
 
-        if (specification is null)
-        {
-            return query;
-        }
-
-        return SpecificationEvaluator.Default.GetQuery(
-            query,
-            specification);
+    public virtual TKey Update(TAggregateRoot aggregateRoot)
+    {
+        ArgumentNullException.ThrowIfNull(aggregateRoot);
+        _ = _dbSet.Update(aggregateRoot);
+        return aggregateRoot.Id;
     }
 }

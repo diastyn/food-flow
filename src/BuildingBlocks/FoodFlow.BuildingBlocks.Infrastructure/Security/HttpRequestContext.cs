@@ -27,4 +27,8 @@ public sealed class HttpRequestContext(
             return Guid.TryParse(sub, out var id) ? id : null;
         }
     }
+
+    public string? IpAddress => httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
+
+    public string? UserAgent => httpContextAccessor.HttpContext?.Request.Headers.UserAgent.ToString();
 }
