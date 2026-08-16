@@ -1,12 +1,13 @@
 using AutoMapper;
 using FoodFlow.BuildingBlocks.Infrastructure.Persistence;
-using FoodFlow.Modules.Identity.Domain.Aggregates.Users;
+using FoodFlow.Modules.Identity.Domain.Aggregates.Roles;
 using FoodFlow.Modules.Identity.Domain.Stores;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 
 namespace FoodFlow.Modules.Identity.Infrastructure.Persistence.Stores;
 
-internal class UserStore(
+internal sealed class RoleStore(
     IdentityDbContext dbContext,
     IMapper mapper)
-    : EfCoreStore<User, UserId>(dbContext, mapper), IUserStore;
+    : EfCoreStore<Role, RoleId>(dbContext, mapper),
+        IRoleStore;

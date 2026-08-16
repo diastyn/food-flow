@@ -1,4 +1,4 @@
-using FoodFlow.Modules.Identity.Domain.Entities;
+using FoodFlow.Modules.Identity.Domain.Entities.Permissions;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

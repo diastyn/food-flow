@@ -40,6 +40,9 @@ public static class DependencyInjectionExtensions
         _ = services.AddSingleton<RsaSigningKeyProvider>();
         _ = services.AddTransient<IJwtTokenIssuer, JwtTokenIssuer>();
         _ = services.AddTransient<IUserStore, UserStore>();
+        _ = services.AddTransient<IRoleStore, RoleStore>();
+        _ = services.AddTransient<IPermissionStore, PermissionStore>();
+        _ = services.AddTransient<IAuditLogStore, AuditLogStore>();
         _ = services.AddKeyedTransient<IUnitOfWork, UnitOfWork<IdentityDbContext>>(nameof(Identity));
         _ = services.AddTransient<IPasswordHasher, Pbkdf2PasswordHasher>();
 

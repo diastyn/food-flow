@@ -1,6 +1,7 @@
 using FoodFlow.Modules.Identity.Domain.Aggregates.Roles;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users;
-using FoodFlow.Modules.Identity.Domain.Entities;
+using FoodFlow.Modules.Identity.Domain.Entities.Audits;
+using FoodFlow.Modules.Identity.Domain.Entities.Permissions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodFlow.Modules.Identity.Infrastructure.Persistence;
@@ -14,6 +15,8 @@ internal sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> opti
     public DbSet<Role> Roles => Set<Role>();
 
     public DbSet<Permission> Permissions => Set<Permission>();
+
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
