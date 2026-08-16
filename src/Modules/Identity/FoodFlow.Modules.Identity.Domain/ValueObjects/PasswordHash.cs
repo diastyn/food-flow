@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 
 namespace FoodFlow.Modules.Identity.Domain.ValueObjects;
 
@@ -28,7 +29,7 @@ public sealed class PasswordHash
     {
         if (string.IsNullOrWhiteSpace(hash))
         {
-            throw new DomainException("Password hash cannot be empty.");
+            throw new DomainException(AppErrors.Domain.PasswordHashCannotBeEmpty.New());
         }
 
         return new PasswordHash(hash);

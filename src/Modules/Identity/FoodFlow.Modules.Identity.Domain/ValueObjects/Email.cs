@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 
 namespace FoodFlow.Modules.Identity.Domain.ValueObjects;
 
@@ -32,14 +33,14 @@ public sealed class Email
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            throw new DomainException("Email cannot be empty.");
+            throw new DomainException(AppErrors.Domain.EmailCannotBeEmpty.New());
         }
 
         var normalized = value.Trim().ToLowerInvariant();
 
         if (!MailAddress.TryCreate(normalized, out _))
         {
-            throw new DomainException($"'{value}' is not a valid email address.");
+            throw new DomainException(AppErrors.Domain.EmailIsNotValid.New(normalized));
         }
 
         return new Email(normalized);

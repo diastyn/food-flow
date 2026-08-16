@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 
 namespace FoodFlow.Modules.Identity.Domain.ValueObjects;
 
@@ -41,12 +42,12 @@ public sealed class PersonName
     {
         if (string.IsNullOrWhiteSpace(firstName))
         {
-            throw new DomainException("First name cannot be empty.");
+            throw new DomainException(AppErrors.Domain.FirstNameCannotBeEmpty.New());
         }
 
         if (string.IsNullOrWhiteSpace(lastName))
         {
-            throw new DomainException("Last name cannot be empty.");
+            throw new DomainException(AppErrors.Domain.LastNameCannotBeEmpty.New());
         }
 
         var first = firstName.Trim();

@@ -1,6 +1,7 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Roles;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Events;
+using FoodFlow.Modules.Identity.Domain.Errors;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 
 namespace FoodFlow.Modules.Identity.Domain.Aggregates.Users;
@@ -129,15 +130,34 @@ public class User : AggregateRoot<UserId>
 
     public void RecordLogin()
     {
-        if (!IsActive)
-        {
-            throw new DomainException("Cannot sign in: the user account is deactivated.");
-        }
+        CheckIsActive();
 
         LastLoginAt = DateTimeOffset.UtcNow;
         FailedLoginAttempts = 0;
         LockedUntil = null;
 
         RaiseDomainEvent(new UserLoggedInEvent(Id, LastLoginAt.Value));
+    }
+
+    public void AssignRole(Role role)
+    {
+        ArgumentNullException.ThrowIfNull(role);
+
+        CheckIsActive();
+
+        if (_roles.Any(r => r.Id == role.Id))
+        {
+            return;
+        }
+
+        _roles.Add(role);
+    }
+
+    private void CheckIsActive()
+    {
+        if (!IsActive)
+        {
+            throw new DomainException(AppErrors.Domain.UserAccountIsDeactivated.New());
+        }
     }
 }

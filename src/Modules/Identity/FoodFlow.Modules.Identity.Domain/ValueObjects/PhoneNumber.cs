@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 
 namespace FoodFlow.Modules.Identity.Domain.ValueObjects;
 
@@ -37,7 +38,7 @@ public sealed partial class PhoneNumber
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            throw new DomainException("Phone number is required.");
+            throw new DomainException(AppErrors.Domain.PhoneNumberIsRequired.New());
         }
 
         var phone = NonDigitRegex().Replace(value, string.Empty);
@@ -49,7 +50,7 @@ public sealed partial class PhoneNumber
 
         if (!KazakhstanPhoneNumberRegex().IsMatch(phone))
         {
-            throw new DomainException("Invalid Kazakhstan phone number.");
+            throw new DomainException(AppErrors.Domain.PhoneNumberIsInvalid.New());
         }
 
         return new PhoneNumber(phone);

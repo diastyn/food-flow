@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 
 namespace FoodFlow.Modules.Identity.Domain.ValueObjects;
 
@@ -35,14 +36,14 @@ public sealed class Username
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            throw new DomainException("Username cannot be empty.");
+            throw new DomainException(AppErrors.Domain.UsernameCannotBeEmpty.New());
         }
 
         var normalized = value.Trim().ToLowerInvariant();
 
         if (normalized.Length is < MinLength or > MaxLength)
         {
-            throw new DomainException($"Username must be between {MinLength} and {MaxLength} characters.");
+            throw new DomainException(AppErrors.Domain.UsernameLengthIsInvalid.New(MinLength, MaxLength));
         }
 
         return new Username(normalized);

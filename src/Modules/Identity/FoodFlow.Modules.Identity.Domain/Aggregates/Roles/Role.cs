@@ -1,12 +1,14 @@
+using FoodFlow.BuildingBlocks.Authorization;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
-using FoodFlow.Modules.Identity.Domain.Entities;
+using FoodFlow.Modules.Identity.Domain.Entities.Permissions;
+using FoodFlow.Modules.Identity.Domain.Errors;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 
 namespace FoodFlow.Modules.Identity.Domain.Aggregates.Roles;
 
 public sealed class Role : AggregateRoot<RoleId>
 {
-    private readonly List<Permission> _permissions;
+    private readonly List<Permission> _permissions = [];
 
     private Role()
     {
@@ -32,13 +34,14 @@ public sealed class Role : AggregateRoot<RoleId>
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new DomainException("Role name cannot be empty.");
+            throw new DomainException(AppErrors.Domain.RoleNameCannotBeEmpty.New());
         }
 
-        return new Role();
+        var normalizedName = name.ToUpperInvariant();
+        return new Role(RoleId.New(), normalizedName, description);
     }
 
-    public void GrantPermissions(params Permission[] permissions)
+    public void GrantPermissions(params IEnumerable<Permission> permissions)
     {
         ArgumentNullException.ThrowIfNull(permissions);
 
@@ -62,4 +65,7 @@ public sealed class Role : AggregateRoot<RoleId>
             _ = _permissions.RemoveAll(p => p.Id == permission.Id);
         }
     }
+
+    public static Role FromSystemRole(SystemRole role) =>
+        Create(role.ToString(), $"Built-in {role} role.");
 }

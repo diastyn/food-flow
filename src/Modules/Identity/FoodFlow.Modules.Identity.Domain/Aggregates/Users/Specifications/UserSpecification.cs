@@ -10,7 +10,7 @@ public sealed class UserSpecification : AggregateSpecification<User, UserId>
     {
         ArgumentException.ThrowIfNullOrEmpty(email);
 
-        Query.Where(u => u.Email == email);
+        _ = Query.Where(u => u.Email == email);
 
         return this;
     }
@@ -19,7 +19,15 @@ public sealed class UserSpecification : AggregateSpecification<User, UserId>
     {
         ArgumentException.ThrowIfNullOrEmpty(username);
 
-        Query.Where(u => u.Username == username);
+        _ = Query.Where(u => u.Username == username);
+
+        return this;
+    }
+
+    public UserSpecification IncludeRolesAndPermissions()
+    {
+        _ = Query.Include(u => u.Roles)
+            .ThenInclude(r => r.Permissions);
 
         return this;
     }

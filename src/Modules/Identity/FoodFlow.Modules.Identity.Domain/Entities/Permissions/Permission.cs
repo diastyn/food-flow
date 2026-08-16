@@ -1,7 +1,8 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Identity.Domain.Errors;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 
-namespace FoodFlow.Modules.Identity.Domain.Entities;
+namespace FoodFlow.Modules.Identity.Domain.Entities.Permissions;
 
 public class Permission : Entity<PermissionId>
 {
@@ -27,7 +28,7 @@ public class Permission : Entity<PermissionId>
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new DomainException("Permission name cannot be empty.");
+            throw new DomainException(AppErrors.Domain.PermissionNameCannotBeEmpty.New());
         }
 
         return new Permission(PermissionId.New(), name, description);
