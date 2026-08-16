@@ -1,7 +1,7 @@
 using FoodFlow.BuildingBlocks.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API;
+namespace FoodFlow.API.ApiResults;
 
 internal static class ResultExtensions
 {
@@ -17,20 +17,27 @@ internal static class ResultExtensions
             return new OkObjectResult(result.Value);
         }
 
-        var problemDetails = new ProblemDetails
+        var problemDetails = result.Error.ToProblemDetails(httpContext);
+
+        return new ObjectResult(problemDetails)
         {
-            Status = StatusCodes.Status400BadRequest,
-            Instance = httpContext.Request.Path,
-            Extensions =
-            {
-                ["code"] = result.Error.Code,
-                ["message"] = result.Error.Message,
-                ["numericCode"] = result.Error.NumericCode,
-                ["errorType"] = result.Error.Type.ToString(),
-                ["timestamp"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-                ["requestId"] = httpContext.TraceIdentifier
-            }
+            StatusCode = problemDetails.Status,
         };
+    }
+
+    public static ActionResult ToActionResult(
+        this Result result,
+        HttpContext httpContext)
+    {
+        ArgumentNullException.ThrowIfNull(httpContext);
+        ArgumentNullException.ThrowIfNull(result);
+
+        if (result.IsSuccess)
+        {
+            return new OkResult();
+        }
+
+        var problemDetails = result.Error.ToProblemDetails(httpContext);
 
         return new ObjectResult(problemDetails)
         {

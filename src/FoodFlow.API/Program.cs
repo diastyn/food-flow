@@ -1,53 +1,67 @@
+using FoodFlow.API.Middlewares;
 using FoodFlow.API.Security;
+using FoodFlow.BuildingBlocks.Application;
 using FoodFlow.BuildingBlocks.Domain.Mapper;
 using FoodFlow.BuildingBlocks.Infrastructure;
-using FoodFlow.Modules.Identity.Application.Configuration;
 using FoodFlow.Modules.Identity.Infrastructure.Configuration;
 using FoodFlow.Modules.Identity.Infrastructure.Persistence.Extensions;
-using FoodFlow.Modules.Ordering.Application.Configuration;
 using FoodFlow.Modules.Ordering.Infrastructure.Configuration;
 using FoodFlow.Modules.Ordering.Infrastructure.Persistence.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-builder.Services
-    .RegisterTimeProvider()
-    .RegisterHttpRequestContext()
-    .RegisterIdentityInfrastructureLayerServices(builder.Configuration)
-    .RegisterIdentityApplicationLayerServices()
-    .RegisterOrderingApplicationLayerServices()
-    .RegisterOrderingInfrastructureLayerServices(builder.Configuration);
-
-builder.Services.RegisterAutoMapper(
-    FoodFlow.Modules.Identity.Domain.AssemblyReference.Assembly);
-
-builder.Services.AddIdentityAuthentication();
-builder.Services.AddAuthorization();
-builder.Services.AddControllers();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    _ = app.MapOpenApi();
-    await app.MigrateOrderingDatabaseAsync();
-    await app.MigrateIdentityDatabaseAsync();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
 
 try
 {
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Add services to the container.
+    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+    _ = builder.Services.AddOpenApi();
+
+    _ = builder.Services
+        .RegisterTimeProvider()
+        .RegisterHttpRequestContext()
+        .RegisterIdentityInfrastructureLayerServices(builder.Configuration)
+        .RegisterApplicationLayerDefaults(
+            FoodFlow.Modules.Identity.Application.Configuration.AssemblyReference.Assembly,
+            FoodFlow.Modules.Ordering.Application.Configuration.AssemblyReference.Assembly)
+        .RegisterOrderingInfrastructureLayerServices(builder.Configuration)
+        .RegisterMapper(
+            FoodFlow.Modules.Identity.Domain.AssemblyReference.Assembly,
+            FoodFlow.Modules.Ordering.Domain.AssemblyReference.Assembly);
+
+    _ = builder.Services.AddIdentityAuthentication();
+    _ = builder.Services.AddPermissionAuthorization();
+    _ = builder.Services.AddControllers()
+        .AddMvcOptions(options => { options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true; })
+        .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
+
+    _ = builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownIPNetworks.Clear();
+        options.KnownProxies.Clear();
+    });
+
+    var app = builder.Build();
+
+    _ = app.UseForwardedHeaders();
+    _ = app.UseApplicationExceptionHandlerMiddleware();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        _ = app.MapOpenApi();
+        await app.MigrateOrderingDatabaseAsync();
+        await app.MigrateIdentityDatabaseAsync();
+    }
+
+    _ = app.UseHttpsRedirection();
+
+    _ = app.UseAuthentication();
+    _ = app.UseAuthorization();
+    _ = app.MapControllers();
+
     Log.Information("Starting web host.");
     await app.RunAsync();
 }

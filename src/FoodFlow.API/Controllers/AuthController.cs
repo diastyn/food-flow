@@ -1,7 +1,9 @@
+using FoodFlow.API.ApiResults;
 using FoodFlow.API.Contracts;
+using FoodFlow.BuildingBlocks.Authorization;
 using FoodFlow.BuildingBlocks.Domain.Security;
 using FoodFlow.Modules.Identity.Application.Auth.Commands;
-using FoodFlow.Modules.Identity.Application.Users.Queries;
+using FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,13 +15,10 @@ namespace FoodFlow.API.Controllers;
 [Route("api/auth")]
 public sealed class AuthController(
     IRequestContext requestContext,
-    ISender sender) : ControllerBase
+    ISender sender) : ApiBaseController
 {
     [HttpPost("token")]
     [AllowAnonymous]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> GetToken(
         [FromBody] GetTokenRequest request,
         CancellationToken cancellationToken)
@@ -35,17 +34,14 @@ public sealed class AuthController(
     /// </summary>
     /// <param name="cancellation">Токен отмены операции.</param>
     [HttpGet("me")]
-    [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Policy = AppPermissions.Users.Read)]
     public async Task<ActionResult<UserModel>> GetMe(
         CancellationToken cancellation)
     {
         var id = requestContext.UserId;
         if (id is null)
         {
-            return Unauthorized();
+            return Unauthorized("User not found.");
         }
 
         var result = await sender.Send(new GetUserByIdQuery(id.Value), cancellation);
