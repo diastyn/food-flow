@@ -10,6 +10,8 @@
     <Project Path="src/FoodFlow.API/FoodFlow.API.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Application/FoodFlow.BuildingBlocks.Application.csproj" />
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Authorization/FoodFlow.BuildingBlocks.Authorization.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Domain/FoodFlow.BuildingBlocks.Domain.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Infrastructure/FoodFlow.BuildingBlocks.Infrastructure.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Results/FoodFlow.BuildingBlocks.Results.csproj" />
@@ -25,7 +27,6 @@
   </Folder>
   <Folder Name="/src/Modules/Ordering/">
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Application/FoodFlow.Modules.Ordering.Application.csproj" />
-    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Contracts/FoodFlow.Modules.Ordering.Contracts.csproj" />
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Domain/FoodFlow.Modules.Ordering.Domain.csproj" />
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Infrastructure/FoodFlow.Modules.Ordering.Infrastructure.csproj" />
   </Folder>
