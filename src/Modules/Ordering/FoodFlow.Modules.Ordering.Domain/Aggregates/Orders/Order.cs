@@ -2,6 +2,7 @@ using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Contracts;
 using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Enums;
 using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Events;
+using FoodFlow.Modules.Ordering.Domain.Errors;
 using FoodFlow.Modules.Ordering.Domain.ValueObjects;
 
 namespace FoodFlow.Modules.Ordering.Domain.Aggregates.Orders;
@@ -64,7 +65,7 @@ public class Order : AggregateRoot<OrderId>
 
         if (items.Count == 0)
         {
-            throw new DomainException("The order must contain at least one item.");
+            throw new DomainException(AppErrors.Domain.OrderMustContainAtLeastOneItem.New());
         }
 
         var id = OrderId.New();

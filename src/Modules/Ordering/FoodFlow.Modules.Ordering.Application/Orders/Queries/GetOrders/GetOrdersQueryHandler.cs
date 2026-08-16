@@ -1,5 +1,7 @@
+using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.BuildingBlocks.Results;
 using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Contracts;
+using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Specifications;
 using FoodFlow.Modules.Ordering.Domain.Stores;
 using MediatR;
 
@@ -15,7 +17,13 @@ internal sealed class GetOrdersQueryHandler(
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var orders = await store.GetManyAsync(cancellationToken);
+        var spec = new OrderSpecification();
+        if (request.RestaurantId.HasValue)
+        {
+            spec = spec.ByRestaurantId(request.RestaurantId.Value);
+        }
+
+        var orders = await store.GetManyAsync<OrderModel>(spec, request, cancellationToken);
 
         return Result.Success(orders);
     }

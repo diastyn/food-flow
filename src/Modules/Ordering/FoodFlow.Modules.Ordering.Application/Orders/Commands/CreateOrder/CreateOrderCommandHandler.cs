@@ -1,7 +1,5 @@
-using FluentValidation;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.BuildingBlocks.Results;
-using FoodFlow.Modules.Ordering.Application.Orders.Errors;
 using FoodFlow.Modules.Ordering.Domain.Aggregates.Orders;
 using FoodFlow.Modules.Ordering.Domain.Stores;
 using FoodFlow.Modules.Ordering.Domain.ValueObjects;
@@ -13,21 +11,13 @@ namespace FoodFlow.Modules.Ordering.Application.Orders.Commands.CreateOrder;
 public sealed class CreateOrderCommandHandler(
     IOrderStore store,
     TimeProvider timeProvider,
-    [FromKeyedServices(nameof(Ordering))] IUnitOfWork unitOfWork,
-    IValidator<CreateOrderCommand> validator) : IRequestHandler<CreateOrderCommand, Result<Guid>>
+    [FromKeyedServices(nameof(Ordering))] IUnitOfWork unitOfWork) : IRequestHandler<CreateOrderCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(
         CreateOrderCommand request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            var errorMessage = string.Join(", ", validationResult.Errors.Select(x => x.ErrorMessage));
-            return Result.Failure<Guid>(OrderErrors.Application.ValidationError.New(errorMessage));
-        }
 
         var now = timeProvider.GetUtcNow();
         var totalPrice = request.Items.Sum(item => item.UnitPrice * item.Quantity);

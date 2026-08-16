@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Ordering.Domain.Errors;
 using FoodFlow.Modules.Ordering.Domain.ValueObjects;
 
 namespace FoodFlow.Modules.Ordering.Domain.Aggregates.Orders;
@@ -42,7 +43,7 @@ public class OrderItem : Entity<OrderItemId>
 
         if (quantity <= 0)
         {
-            throw new DomainException("The order item must contain at least one quantity.");
+            throw new DomainException(AppErrors.Domain.OrderItemQuantityMustBePositive.New());
         }
 
         var item = new OrderItem(

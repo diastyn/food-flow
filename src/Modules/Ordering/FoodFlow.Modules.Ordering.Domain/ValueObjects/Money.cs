@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Ordering.Domain.Errors;
 
 namespace FoodFlow.Modules.Ordering.Domain.ValueObjects;
 
@@ -37,7 +38,7 @@ public readonly record struct Money
     {
         if (Currency is null || other.Currency is null || !Currency.Equals(other.Currency))
         {
-            throw new DomainException("Cannot operate on money with different or uninitialized currencies.");
+            throw new DomainException(AppErrors.Domain.MoneyCurrencyMismatch.New());
         }
     }
 

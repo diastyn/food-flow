@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Ordering.Domain.Errors;
 
 namespace FoodFlow.Modules.Ordering.Domain.ValueObjects;
 
@@ -28,17 +29,17 @@ public sealed record Address
     {
         if (string.IsNullOrWhiteSpace(country))
         {
-            throw new DomainException("Country cannot be empty.");
+            throw new DomainException(AppErrors.Domain.CountryCannotBeEmpty.New());
         }
 
         if (string.IsNullOrWhiteSpace(city))
         {
-            throw new DomainException("City cannot be empty.");
+            throw new DomainException(AppErrors.Domain.CityCannotBeEmpty.New());
         }
 
         if (string.IsNullOrWhiteSpace(street))
         {
-            throw new DomainException("Street cannot be empty.");
+            throw new DomainException(AppErrors.Domain.StreetCannotBeEmpty.New());
         }
 
         return new Address(

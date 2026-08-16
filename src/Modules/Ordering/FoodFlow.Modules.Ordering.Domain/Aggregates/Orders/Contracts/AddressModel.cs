@@ -1,7 +1,12 @@
 namespace FoodFlow.Modules.Ordering.Domain.Aggregates.Orders.Contracts;
 
-public record AddressModel(
-    string Street,
-    string City,
-    string Country,
-    string? PostalCode);
+public sealed class AddressModel
+{
+    public string Street { get; init; } = null!;
+
+    public string City { get; init; } = null!;
+
+    public string Country { get; init; } = null!;
+
+    public string? PostalCode { get; init; }
+}

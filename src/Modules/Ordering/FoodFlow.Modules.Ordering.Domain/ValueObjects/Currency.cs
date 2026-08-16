@@ -1,4 +1,5 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using FoodFlow.Modules.Ordering.Domain.Errors;
 
 namespace FoodFlow.Modules.Ordering.Domain.ValueObjects;
 
@@ -8,12 +9,12 @@ public sealed record Currency
     {
         if (string.IsNullOrWhiteSpace(code))
         {
-            throw new DomainException("Currency code cannot be null or whitespace.");
+            throw new DomainException(AppErrors.Domain.CurrencyCodeCannotBeEmpty.New());
         }
 
         if (decimalPlaces is < 0 or > 4)
         {
-            throw new DomainException("Decimal places must be between 0 and 4.");
+            throw new DomainException(AppErrors.Domain.CurrencyDecimalPlacesOutOfRange.New());
         }
 
         Code = code.ToUpperInvariant();
@@ -42,7 +43,7 @@ public sealed record Currency
     {
         var normalized = code.Trim().ToUpperInvariant();
         return Values.TryGetValue(normalized, out var currency) ? currency
-            : throw new DomainException($"Unsupported currency code: '{code}'.");
+            : throw new DomainException(AppErrors.Domain.CurrencyCodeIsUnsupported.New(code));
     }
 
     public override string ToString() => Code;
