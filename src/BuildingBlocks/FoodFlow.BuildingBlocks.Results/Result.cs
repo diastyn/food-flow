@@ -29,5 +29,9 @@ public class Result
         return new Result<TValue>(true, Error.None, value);
     }
 
+    public static Result Success() => new(true, Error.None);
+
     public static Result<TValue> Failure<TValue>(Error error) => new(false, error, default);
+
+    public static Result Failure(Error error) => new(false, error);
 }
