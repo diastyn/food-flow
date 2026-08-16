@@ -42,7 +42,7 @@ public static class MigrationApplierExtensions
         var systemRoles = Enum.GetValues<SystemRole>();
         foreach (var systemRole in systemRoles)
         {
-            var roleName = systemRole.ToString();
+            var roleName = systemRole.ToString().ToUpperInvariant();
             var exists = await dbContext.Roles.AnyAsync(r => r.Name == roleName, cancellationToken);
             if (exists)
             {
