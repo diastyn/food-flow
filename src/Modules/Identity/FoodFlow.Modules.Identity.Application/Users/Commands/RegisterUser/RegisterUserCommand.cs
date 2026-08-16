@@ -2,7 +2,7 @@ using FoodFlow.BuildingBlocks.Results;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;
 using MediatR;
 
-namespace FoodFlow.Modules.Identity.Application.Users.Commands;
+namespace FoodFlow.Modules.Identity.Application.Users.Commands.RegisterUser;
 
 public sealed record RegisterUserCommand(
     PersonNameModel Name,

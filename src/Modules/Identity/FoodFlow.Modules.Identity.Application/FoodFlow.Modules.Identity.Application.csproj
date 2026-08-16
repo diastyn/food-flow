@@ -7,8 +7,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Application\FoodFlow.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Results\FoodFlow.BuildingBlocks.Results.csproj" />
     <ProjectReference Include="..\FoodFlow.Modules.Identity.Domain\FoodFlow.Modules.Identity.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Audits\" />
   </ItemGroup>
 
 </Project>

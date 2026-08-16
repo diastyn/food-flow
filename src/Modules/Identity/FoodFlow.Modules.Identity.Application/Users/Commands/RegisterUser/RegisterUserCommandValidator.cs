@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace FoodFlow.Modules.Identity.Application.Users.Commands;
+namespace FoodFlow.Modules.Identity.Application.Users.Commands.RegisterUser;
 
 public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {

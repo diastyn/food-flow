@@ -1,9 +1,11 @@
 using FoodFlow.BuildingBlocks.Domain.Primitives;
 using FoodFlow.BuildingBlocks.Results;
-using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Errors;
+using FoodFlow.Modules.Identity.Application.Audits.Notifications.AuditEventOccurred;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Specifications;
 using FoodFlow.Modules.Identity.Domain.Auth;
 using FoodFlow.Modules.Identity.Domain.Auth.Contracts;
+using FoodFlow.Modules.Identity.Domain.Entities.Audits.Enums;
+using FoodFlow.Modules.Identity.Domain.Errors;
 using FoodFlow.Modules.Identity.Domain.Security;
 using FoodFlow.Modules.Identity.Domain.Stores;
 using MediatR;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FoodFlow.Modules.Identity.Application.Auth.Commands;
 
 public sealed class AuthenticateUserCommandHandler(
+    IPublisher publisher,
     IPasswordHasher passwordHasher,
     IJwtTokenIssuer tokenIssuer,
     TimeProvider timeProvider,
@@ -23,20 +26,49 @@ public sealed class AuthenticateUserCommandHandler(
         CancellationToken cancellationToken)
     {
         var spec = new UserSpecification()
-            .ByUsername(request.Username);
+            .ByUsername(request.Username)
+            .IncludeRolesAndPermissions();
 
         var user = await userStore.GetAsync(spec, cancellationToken);
         if (user is null || !passwordHasher.Verify(request.Password, user.PasswordHash.ToString()))
         {
-            return Result.Failure<AuthToken>(UsersErrors.Application.UserUnauthorized.New());
+            var error = AppErrors.Application.UserUnauthorized.New();
+            await publisher.Publish(new AuditEventOccurredNotification(
+                AuditAction.LoginFailed,
+                ActorUserId: null,
+                TargetUserId: user?.Id,
+                request.Username,
+                Details: error.Messages,
+                Succeeded: false), cancellationToken);
+            return Result.Failure<AuthToken>(error);
         }
 
-        user.RecordLogin();
+        try
+        {
+            user.RecordLogin();
+        }
+        catch (DomainException)
+        {
+            await publisher.Publish(new AuditEventOccurredNotification(
+                AuditAction.LoginBlockedDeactivated,
+                ActorUserId: user.Id,
+                TargetUserId: user.Id,
+                request.Username,
+                Succeeded: false), cancellationToken);
+            throw;
+        }
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var sessionId = Guid.NewGuid();
         var now = timeProvider.GetUtcNow();
         var access = tokenIssuer.IssueAccessToken(user, sessionId);
+
+        await publisher.Publish(new AuditEventOccurredNotification(
+            AuditAction.LoginSucceeded,
+            ActorUserId: user.Id,
+            TargetUserId: user.Id,
+            request.Username), cancellationToken);
 
         return Result.Success(new AuthToken(
             access.Token,

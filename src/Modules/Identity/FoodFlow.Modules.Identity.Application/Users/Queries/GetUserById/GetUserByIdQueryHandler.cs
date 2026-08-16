@@ -1,10 +1,11 @@
 using FoodFlow.BuildingBlocks.Results;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;
+using FoodFlow.Modules.Identity.Domain.Errors;
 using FoodFlow.Modules.Identity.Domain.Stores;
 using FoodFlow.Modules.Identity.Domain.ValueObjects;
 using MediatR;
 
-namespace FoodFlow.Modules.Identity.Application.Users.Queries;
+namespace FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
 
 public sealed class GetUserByIdQueryHandler(
     IUserStore userStore) : IRequestHandler<GetUserByIdQuery, Result<UserModel>>
@@ -17,6 +18,8 @@ public sealed class GetUserByIdQueryHandler(
             new UserId(request.Id),
             cancellationToken);
 
-        return Result.Success(user);
+        return user is null
+            ? Result.Failure<UserModel>(AppErrors.Application.UserNotFound.New())
+            : Result.Success(user);
     }
 }
