@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Infrastructure\FoodFlow.BuildingBlocks.Infrastructure.csproj" />
-    <ProjectReference Include="..\FoodFlow.Modules.Ordering.Application\FoodFlow.Modules.Ordering.Application.csproj" />
+    <ProjectReference Include="..\FoodFlow.Modules.Ordering.Domain\FoodFlow.Modules.Ordering.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
