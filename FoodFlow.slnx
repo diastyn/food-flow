@@ -15,6 +15,7 @@
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Domain/FoodFlow.BuildingBlocks.Domain.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Infrastructure/FoodFlow.BuildingBlocks.Infrastructure.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Results/FoodFlow.BuildingBlocks.Results.csproj" />
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Security/FoodFlow.BuildingBlocks.Security.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
   <Folder Name="/src/Modules/Catalog/">

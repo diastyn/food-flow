@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodFlow.Modules.Identity.Infrastructure.Auth;
+namespace FoodFlow.BuildingBlocks.Security;
 
 public class JwtOptions
 {

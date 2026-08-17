@@ -31,13 +31,6 @@ public static class DependencyInjectionExtensions
                 npgsql => npgsql.EnableRetryOnFailure()
                     .MigrationsHistoryTable("__EFMigrationsHistory", IdentityDbContext.DefaultSchema)));
 
-        _ = services
-            .AddOptions<JwtOptions>()
-            .Bind(configuration.GetSection(JwtOptions.SectionName))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
-        _ = services.AddSingleton<RsaSigningKeyProvider>();
         _ = services.AddTransient<IJwtTokenIssuer, JwtTokenIssuer>();
         _ = services.AddTransient<IUserStore, UserStore>();
         _ = services.AddTransient<IRoleStore, RoleStore>();
