@@ -21,6 +21,9 @@
   <ItemGroup Label="Persistence">
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10" />
+    <!-- Transitive pin: Npgsql.EntityFrameworkCore.PostgreSQL floors this at 10.0.4,
+         which otherwise drags in a Relational build older than the pinned EFCore 10.0.10. -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup Label="Messaging">
