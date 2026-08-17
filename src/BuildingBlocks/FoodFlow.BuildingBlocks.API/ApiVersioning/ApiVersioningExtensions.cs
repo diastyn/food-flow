@@ -1,8 +1,10 @@
 using Asp.Versioning;
+using FoodFlow.BuildingBlocks.API.OpenApi;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FoodFlow.API.ApiVersioning;
+namespace FoodFlow.BuildingBlocks.API.ApiVersioning;
 
-internal static class ApiVersioningExtensions
+public static class ApiVersioningExtensions
 {
     public static IServiceCollection AddRestApiVersioning(
         this IServiceCollection services)
@@ -22,7 +24,11 @@ internal static class ApiVersioningExtensions
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             })
-            .AddOpenApi();
+            .AddOpenApi(options =>
+            {
+                options.Document.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+                options.Document.AddOperationTransformer<BearerSecurityRequirementTransformer>();
+            });
 
         return services;
     }

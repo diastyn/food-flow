@@ -1,4 +1,6 @@
-namespace FoodFlow.API.Middlewares;
+using Microsoft.AspNetCore.Builder;
+
+namespace FoodFlow.BuildingBlocks.API.Middlewares;
 
 /// <summary>
 ///     Расширения для IApplicationBuilder.

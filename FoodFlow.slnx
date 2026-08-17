@@ -10,6 +10,7 @@
     <Project Path="src/FoodFlow.API/FoodFlow.API.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.API/FoodFlow.BuildingBlocks.API.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Application/FoodFlow.BuildingBlocks.Application.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Authorization/FoodFlow.BuildingBlocks.Authorization.csproj" />
     <Project Path="src/BuildingBlocks/FoodFlow.BuildingBlocks.Domain/FoodFlow.BuildingBlocks.Domain.csproj" />

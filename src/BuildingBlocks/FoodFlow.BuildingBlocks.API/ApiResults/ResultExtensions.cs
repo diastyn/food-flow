@@ -1,9 +1,10 @@
 using FoodFlow.BuildingBlocks.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.ApiResults;
+namespace FoodFlow.BuildingBlocks.API.ApiResults;
 
-internal static class ResultExtensions
+public static class ResultExtensions
 {
     public static ActionResult ToActionResult<TValue>(
         this Result<TValue> result,

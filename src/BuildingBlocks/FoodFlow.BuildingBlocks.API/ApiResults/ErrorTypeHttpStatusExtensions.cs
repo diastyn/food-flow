@@ -1,6 +1,7 @@
 using FoodFlow.BuildingBlocks.Results;
+using Microsoft.AspNetCore.Http;
 
-namespace FoodFlow.API.ApiResults;
+namespace FoodFlow.BuildingBlocks.API.ApiResults;
 
 internal static class ErrorTypeHttpStatusExtensions
 {

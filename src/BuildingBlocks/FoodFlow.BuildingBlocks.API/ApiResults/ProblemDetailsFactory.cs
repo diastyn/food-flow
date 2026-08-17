@@ -1,7 +1,9 @@
 using FoodFlow.BuildingBlocks.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FoodFlow.API.ApiResults;
+namespace FoodFlow.BuildingBlocks.API.ApiResults;
 
 internal static class ProblemDetailsFactory
 {

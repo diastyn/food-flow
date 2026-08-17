@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace FoodFlow.API.ModelConventions;
+namespace FoodFlow.BuildingBlocks.API.ModelConventions;
 
-internal sealed partial class KebabCaseControllerRouteConvention : IControllerModelConvention
+public sealed partial class KebabCaseControllerRouteConvention : IControllerModelConvention
 {
     private const string _placeHolder = "[controller]";
 

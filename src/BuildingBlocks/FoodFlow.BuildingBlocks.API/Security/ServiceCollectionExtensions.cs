@@ -1,12 +1,13 @@
 using FoodFlow.BuildingBlocks.Authorization;
-using FoodFlow.Modules.Identity.Infrastructure.Auth;
+using FoodFlow.BuildingBlocks.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FoodFlow.API.Security;
+namespace FoodFlow.BuildingBlocks.API.Security;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddIdentityAuthentication(
         this IServiceCollection services)

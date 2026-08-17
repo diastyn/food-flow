@@ -36,6 +36,7 @@
          depends on it) drags in a vulnerable Microsoft.OpenApi 2.0.0 (GHSA-v5pm-xwqc-g5wc);
          2.7.6 is the patched line. -->
     <PackageVersion Include="Microsoft.OpenApi" Version="2.7.6" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.16.20" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
   </ItemGroup>

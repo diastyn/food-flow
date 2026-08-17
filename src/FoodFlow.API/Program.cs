@@ -1,7 +1,8 @@
-using FoodFlow.API.ApiVersioning;
-using FoodFlow.API.Middlewares;
-using FoodFlow.API.ModelConventions;
-using FoodFlow.API.Security;
+using FoodFlow.BuildingBlocks.API.ApiVersioning;
+using FoodFlow.BuildingBlocks.API.Middlewares;
+using FoodFlow.BuildingBlocks.API.ModelConventions;
+using FoodFlow.BuildingBlocks.API.OpenApi;
+using FoodFlow.BuildingBlocks.API.Security;
 using FoodFlow.BuildingBlocks.Application;
 using FoodFlow.BuildingBlocks.Domain.Mapper;
 using FoodFlow.BuildingBlocks.Infrastructure;
@@ -15,15 +16,17 @@ using Serilog;
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var configuration = builder.Configuration;
 
     _ = builder.Services
         .RegisterTimeProvider()
         .RegisterHttpRequestContext()
-        .RegisterIdentityInfrastructureLayerServices(builder.Configuration)
+        .RegisterJwtAuthenticationDefaults(configuration)
+        .RegisterIdentityInfrastructureLayerServices(configuration)
         .RegisterApplicationLayerDefaults(
             FoodFlow.Modules.Identity.Application.Configuration.AssemblyReference.Assembly,
             FoodFlow.Modules.Ordering.Application.Configuration.AssemblyReference.Assembly)
-        .RegisterOrderingInfrastructureLayerServices(builder.Configuration)
+        .RegisterOrderingInfrastructureLayerServices(configuration)
         .RegisterMapper(
             FoodFlow.Modules.Identity.Domain.AssemblyReference.Assembly,
             FoodFlow.Modules.Ordering.Domain.AssemblyReference.Assembly);
@@ -51,6 +54,7 @@ try
     if (app.Environment.IsDevelopment())
     {
         _ = app.MapOpenApi().WithDocumentPerVersion();
+        _ = app.UseScalarApiReference();
         await app.MigrateOrderingDatabaseAsync();
         await app.MigrateIdentityDatabaseAsync();
     }

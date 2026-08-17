@@ -1,9 +1,12 @@
-using FoodFlow.API.ApiResults;
+using FoodFlow.BuildingBlocks.API.ApiResults;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ValidationException = FoodFlow.BuildingBlocks.Domain.Primitives.ValidationException;
 
-namespace FoodFlow.API.Middlewares;
+namespace FoodFlow.BuildingBlocks.API.Middlewares;
 
 public class ApplicationExceptionHandlingMiddleware(
     ILogger<ApplicationExceptionHandlingMiddleware> logger,

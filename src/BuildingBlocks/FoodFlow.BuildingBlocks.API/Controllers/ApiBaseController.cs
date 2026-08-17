@@ -1,8 +1,9 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.Controllers;
+namespace FoodFlow.BuildingBlocks.API.Controllers;
 
 [ApiController]
 [Authorize]
