@@ -8,3 +8,4 @@ riderModule.iml
 .vscode/
 *.user
 appsettings.Development.json
+secrets.json
