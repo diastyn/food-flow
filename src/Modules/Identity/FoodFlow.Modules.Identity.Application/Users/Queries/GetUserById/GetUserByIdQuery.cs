@@ -1,7 +1,7 @@
+using FoodFlow.BuildingBlocks.Application.Queries;
 using FoodFlow.BuildingBlocks.Results;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;
-using MediatR;
 
 namespace FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
 
-public sealed record GetUserByIdQuery(Guid Id) : IRequest<Result<UserModel>>;
+public sealed record GetUserByIdQuery(Guid Id) : IQueryRequest<Result<UserModel>>;
