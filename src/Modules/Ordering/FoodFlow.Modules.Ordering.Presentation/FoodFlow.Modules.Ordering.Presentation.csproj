@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.API\FoodFlow.BuildingBlocks.API.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Authorization\FoodFlow.BuildingBlocks.Authorization.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Results\FoodFlow.BuildingBlocks.Results.csproj" />
+    <ProjectReference Include="..\FoodFlow.Modules.Ordering.Application\FoodFlow.Modules.Ordering.Application.csproj" />
+    <ProjectReference Include="..\FoodFlow.Modules.Ordering.Domain\FoodFlow.Modules.Ordering.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+</Project>

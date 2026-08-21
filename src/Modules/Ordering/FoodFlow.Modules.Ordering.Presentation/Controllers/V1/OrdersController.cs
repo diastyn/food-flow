@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.Controllers;
+namespace FoodFlow.Modules.Ordering.Presentation.Controllers.V1;
 
 public sealed class OrdersController(ISender sender) : ApiBaseController
 {

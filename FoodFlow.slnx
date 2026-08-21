@@ -32,5 +32,6 @@
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Application/FoodFlow.Modules.Ordering.Application.csproj" />
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Domain/FoodFlow.Modules.Ordering.Domain.csproj" />
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Infrastructure/FoodFlow.Modules.Ordering.Infrastructure.csproj" />
+    <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Presentation/FoodFlow.Modules.Ordering.Presentation.csproj" />
   </Folder>
 </Solution>
