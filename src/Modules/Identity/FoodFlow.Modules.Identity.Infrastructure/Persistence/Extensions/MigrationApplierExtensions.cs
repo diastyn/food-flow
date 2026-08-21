@@ -1,9 +1,14 @@
 using FoodFlow.BuildingBlocks.Authorization;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Roles;
+using FoodFlow.Modules.Identity.Domain.Aggregates.Users;
 using FoodFlow.Modules.Identity.Domain.Entities.Permissions;
+using FoodFlow.Modules.Identity.Domain.Security;
+using FoodFlow.Modules.Identity.Domain.ValueObjects;
+using FoodFlow.Modules.Identity.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FoodFlow.Modules.Identity.Infrastructure.Persistence.Extensions;
 
@@ -14,10 +19,15 @@ public static class MigrationApplierExtensions
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(app);
+
         await using var scope = app.Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        var credentials = scope.ServiceProvider.GetRequiredService<IOptions<AdminCredentialsOptions>>().Value;
+        var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+
         await dbContext.Database.MigrateAsync(cancellationToken);
         await SeedPermissionsAndRolesAsync(dbContext, cancellationToken);
+        await SeedAdminAsync(dbContext, credentials, passwordHasher, cancellationToken);
     }
 
     private static async Task SeedPermissionsAndRolesAsync(
@@ -54,6 +64,34 @@ public static class MigrationApplierExtensions
             _ = dbContext.Roles.Add(role);
         }
 
+        _ = await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private static async Task SeedAdminAsync(
+        IdentityDbContext dbContext,
+        AdminCredentialsOptions credentials,
+        IPasswordHasher passwordHasher,
+        CancellationToken cancellationToken)
+    {
+        var normalizedUsername = credentials.Username.Trim().ToLowerInvariant();
+        if (await dbContext.Users.AnyAsync(r => r.Username == normalizedUsername, cancellationToken))
+        {
+            return;
+        }
+
+        var admin = User.Register(
+            Username.Create(credentials.Username),
+            Email.Create(credentials.Email),
+            PasswordHash.FromHash(passwordHasher.Hash(credentials.Password)),
+            PersonName.Create(credentials.Firstname, credentials.Lastname));
+
+        var adminRole = nameof(SystemRole.Admin).ToUpperInvariant();
+
+        var role = await dbContext.Roles.FirstAsync(r => r.Name == adminRole, cancellationToken);
+
+        admin.AssignRole(role);
+
+        _ = await dbContext.Users.AddAsync(admin, cancellationToken);
         _ = await dbContext.SaveChangesAsync(cancellationToken);
     }
 

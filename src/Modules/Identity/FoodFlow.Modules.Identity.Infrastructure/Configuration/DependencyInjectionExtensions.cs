@@ -15,7 +15,7 @@ namespace FoodFlow.Modules.Identity.Infrastructure.Configuration;
 
 public static class DependencyInjectionExtensions
 {
-    private const string ConnectionStringName = "Database";
+    private const string _connectionStringName = "Database";
 
     public static IServiceCollection RegisterIdentityInfrastructureLayerServices(
         this IServiceCollection services,
@@ -24,12 +24,18 @@ public static class DependencyInjectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);
 
-        var connectionString = configuration.GetConnectionString(ConnectionStringName);
+        var connectionString = configuration.GetConnectionString(_connectionStringName);
 
         _ = services.AddDbContext<IdentityDbContext>(options =>
             options.UseNpgsql(connectionString,
                 npgsql => npgsql.EnableRetryOnFailure()
                     .MigrationsHistoryTable("__EFMigrationsHistory", IdentityDbContext.DefaultSchema)));
+
+        _ = services
+            .AddOptions<AdminCredentialsOptions>()
+            .Bind(configuration.GetSection(AdminCredentialsOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         _ = services.AddTransient<IJwtTokenIssuer, JwtTokenIssuer>();
         _ = services.AddTransient<IUserStore, UserStore>();
