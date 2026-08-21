@@ -1,4 +1,3 @@
-using FoodFlow.API.Contracts;
 using FoodFlow.BuildingBlocks.API.ApiResults;
 using FoodFlow.BuildingBlocks.API.Controllers;
 using FoodFlow.BuildingBlocks.Authorization;
@@ -6,11 +5,12 @@ using FoodFlow.BuildingBlocks.Domain.Security;
 using FoodFlow.Modules.Identity.Application.Auth.Commands;
 using FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;
+using FoodFlow.Modules.Identity.Presentation.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.Controllers;
+namespace FoodFlow.Modules.Identity.Presentation.Controllers.V1;
 
 public sealed class AuthController(
     IRequestContext requestContext,

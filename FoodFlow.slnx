@@ -26,6 +26,7 @@
     <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Application/FoodFlow.Modules.Identity.Application.csproj" />
     <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Domain/FoodFlow.Modules.Identity.Domain.csproj" />
     <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Infrastructure/FoodFlow.Modules.Identity.Infrastructure.csproj" />
+    <Project Path="src/Modules/Identity/FoodFlow.Modules.Identity.Presentation/FoodFlow.Modules.Identity.Presentation.csproj" />
   </Folder>
   <Folder Name="/src/Modules/Ordering/">
     <Project Path="src/Modules/Ordering/FoodFlow.Modules.Ordering.Application/FoodFlow.Modules.Ordering.Application.csproj" />

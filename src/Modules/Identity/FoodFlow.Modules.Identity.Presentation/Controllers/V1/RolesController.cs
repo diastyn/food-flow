@@ -1,4 +1,3 @@
-using FoodFlow.API.Contracts;
 using FoodFlow.BuildingBlocks.API.ApiResults;
 using FoodFlow.BuildingBlocks.API.Controllers;
 using FoodFlow.BuildingBlocks.Authorization;
@@ -6,11 +5,12 @@ using FoodFlow.Modules.Identity.Application.Roles.Commands.CreateRole;
 using FoodFlow.Modules.Identity.Application.Roles.Commands.GrantPermission;
 using FoodFlow.Modules.Identity.Application.Roles.Queries.GetRole;
 using FoodFlow.Modules.Identity.Application.Roles.Queries.GetRoles;
+using FoodFlow.Modules.Identity.Presentation.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.Controllers;
+namespace FoodFlow.Modules.Identity.Presentation.Controllers.V1;
 
 public sealed class RolesController(ISender sender) : ApiBaseController
 {

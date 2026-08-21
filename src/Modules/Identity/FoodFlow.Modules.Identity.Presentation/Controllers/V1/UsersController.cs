@@ -1,15 +1,15 @@
-using FoodFlow.API.Contracts;
 using FoodFlow.BuildingBlocks.API.ApiResults;
 using FoodFlow.BuildingBlocks.API.Controllers;
 using FoodFlow.BuildingBlocks.Authorization;
 using FoodFlow.Modules.Identity.Application.Users.Commands.AssignRole;
 using FoodFlow.Modules.Identity.Application.Users.Commands.RegisterUser;
 using FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
+using FoodFlow.Modules.Identity.Presentation.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodFlow.API.Controllers;
+namespace FoodFlow.Modules.Identity.Presentation.Controllers.V1;
 
 public sealed class UsersController(ISender sender) : ApiBaseController
 {
