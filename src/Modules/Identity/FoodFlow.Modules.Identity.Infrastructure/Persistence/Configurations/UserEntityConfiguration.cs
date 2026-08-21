@@ -43,7 +43,7 @@ internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
             {
                 _ = name.Property(n => n.FirstName).HasColumnName("FirstName").HasMaxLength(100).IsRequired();
                 _ = name.Property(n => n.LastName).HasColumnName("LastName").HasMaxLength(100).IsRequired();
-                _ = name.Property(n => n.FullName).HasColumnName("FullName").HasMaxLength(256);
+                _ = name.Property(n => n.FullName).HasColumnName("FullName").HasMaxLength(256).IsRequired();
             });
 
         _ = builder.Property(x => x.Phone)
