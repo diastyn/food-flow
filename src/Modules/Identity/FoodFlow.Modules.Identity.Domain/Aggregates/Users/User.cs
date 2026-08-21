@@ -116,7 +116,7 @@ public class User : AggregateRoot<UserId>
         Email email,
         PasswordHash passwordHash,
         PersonName name,
-        PhoneNumber? phone)
+        PhoneNumber? phone = null)
     {
         ArgumentNullException.ThrowIfNull(username);
         ArgumentNullException.ThrowIfNull(email);

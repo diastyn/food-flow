@@ -74,7 +74,7 @@ public sealed partial class PhoneNumber
     [GeneratedRegex(@"\D")]
     private static partial Regex NonDigitRegex();
 
-    public static implicit operator string(PhoneNumber phoneNumber) => phoneNumber.Value;
+    public static implicit operator string?(PhoneNumber? phoneNumber) => phoneNumber?.Value;
 
     public static implicit operator PhoneNumber(string phone) => Create(phone);
 }
