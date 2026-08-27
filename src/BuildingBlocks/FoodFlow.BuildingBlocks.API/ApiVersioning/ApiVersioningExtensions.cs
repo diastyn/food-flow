@@ -26,8 +26,8 @@ public static class ApiVersioningExtensions
             })
             .AddOpenApi(options =>
             {
-                options.Document.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
-                options.Document.AddOperationTransformer<BearerSecurityRequirementTransformer>();
+                _ = options.Document.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+                _ = options.Document.AddOperationTransformer<BearerSecurityRequirementTransformer>();
             });
 
         return services;
