@@ -1,7 +1,7 @@
 using FoodFlow.BuildingBlocks.API.ApiResults;
 using FoodFlow.BuildingBlocks.API.Controllers;
 using FoodFlow.BuildingBlocks.Authorization;
-using FoodFlow.BuildingBlocks.Domain.Security;
+using FoodFlow.BuildingBlocks.Domain.Authentication;
 using FoodFlow.Modules.Identity.Application.Auth.Commands;
 using FoodFlow.Modules.Identity.Application.Users.Queries.GetUserById;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users.Contracts;

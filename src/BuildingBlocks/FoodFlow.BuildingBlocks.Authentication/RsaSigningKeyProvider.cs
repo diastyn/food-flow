@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FoodFlow.BuildingBlocks.Security;
+namespace FoodFlow.BuildingBlocks.Authentication;
 
 public sealed class RsaSigningKeyProvider : IDisposable
 {

@@ -1,5 +1,5 @@
+using FoodFlow.BuildingBlocks.Domain.Authentication;
 using FoodFlow.BuildingBlocks.Domain.Primitives;
-using FoodFlow.BuildingBlocks.Domain.Security;
 using FoodFlow.Modules.Identity.Domain.Entities.Audits;
 using FoodFlow.Modules.Identity.Domain.Stores;
 using MediatR;

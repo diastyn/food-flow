@@ -43,6 +43,5 @@ public interface IStore<TAggregateRoot, TKey>
         TAggregateRoot aggregateRoot,
         CancellationToken cancellationToken = default);
 
-    TKey Update(
-        TAggregateRoot aggregateRoot);
+    public TKey Update(TAggregateRoot aggregateRoot);
 }

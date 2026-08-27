@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using FoodFlow.BuildingBlocks.Security;
+using FoodFlow.BuildingBlocks.Authentication;
 using FoodFlow.Modules.Identity.Domain.Aggregates.Users;
 using FoodFlow.Modules.Identity.Domain.Auth;
 using FoodFlow.Modules.Identity.Domain.Auth.Contracts;

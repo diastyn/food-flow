@@ -1,11 +1,11 @@
-using FoodFlow.BuildingBlocks.Authorization;
-using FoodFlow.BuildingBlocks.Security;
+using FoodFlow.BuildingBlocks.Domain.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FoodFlow.BuildingBlocks.API.Security;
+namespace FoodFlow.BuildingBlocks.Authentication;
 
 public static class ServiceCollectionExtensions
 {
@@ -41,21 +41,31 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddPermissionAuthorization(
+    public static IServiceCollection RegisterHttpRequestContext(
         this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        _ = services.AddAuthorization(config =>
-        {
-            foreach (var permission in AppPermissions.GetAll())
-            {
-                config.AddPolicy(permission, policy =>
-                {
-                    _ = policy.RequireClaim("permission", permission);
-                });
-            }
-        });
+        _ = services.AddHttpContextAccessor();
+        _ = services.AddScoped<IRequestContext, HttpRequestContext>();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterJwtAuthenticationDefaults(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configuration);
+
+        _ = services
+            .AddOptions<JwtOptions>()
+            .Bind(configuration.GetSection(JwtOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        _ = services.AddSingleton<RsaSigningKeyProvider>();
 
         return services;
     }

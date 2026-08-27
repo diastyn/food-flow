@@ -1,4 +1,4 @@
-namespace FoodFlow.BuildingBlocks.Domain.Security;
+namespace FoodFlow.BuildingBlocks.Domain.Authentication;
 
 public interface IRequestContext
 {

@@ -12,7 +12,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FoodFlow.BuildingBlocks.Domain\FoodFlow.BuildingBlocks.Domain.csproj" />
-      <ProjectReference Include="..\FoodFlow.BuildingBlocks.Security\FoodFlow.BuildingBlocks.Security.csproj" />
     </ItemGroup>
 
     <ItemGroup>

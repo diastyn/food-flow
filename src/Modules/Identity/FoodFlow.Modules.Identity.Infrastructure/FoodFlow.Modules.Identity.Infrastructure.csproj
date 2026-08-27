@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Authentication\FoodFlow.BuildingBlocks.Authentication.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\FoodFlow.BuildingBlocks.Infrastructure\FoodFlow.BuildingBlocks.Infrastructure.csproj" />
       <ProjectReference Include="..\FoodFlow.Modules.Identity.Domain\FoodFlow.Modules.Identity.Domain.csproj" />
     </ItemGroup>

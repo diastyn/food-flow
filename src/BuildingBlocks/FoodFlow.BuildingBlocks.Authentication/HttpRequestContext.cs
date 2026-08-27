@@ -1,8 +1,8 @@
 using System.Security.Claims;
-using FoodFlow.BuildingBlocks.Domain.Security;
+using FoodFlow.BuildingBlocks.Domain.Authentication;
 using Microsoft.AspNetCore.Http;
 
-namespace FoodFlow.BuildingBlocks.Security;
+namespace FoodFlow.BuildingBlocks.Authentication;
 
 public sealed class HttpRequestContext(
     IHttpContextAccessor httpContextAccessor) : IRequestContext
